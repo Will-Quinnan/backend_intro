@@ -143,8 +143,12 @@ def get_total():
 @app.get("/api/cheaper/<price>")
 def get_cheaper(price):
     price = float(price)
+    cursor = db.products.find({})
     results = []
-    for prod in mock_catalog:
+    for prod in cursor:
+        fix_id(prod)
+        results.append(prod)
+    for prod in results:
         if prod["price"] <= price:
             results.append(prod)
 
